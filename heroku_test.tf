@@ -1,22 +1,20 @@
 
 # This is a test of the app on Heroku
 
+# Helpful doc: https://devcenter.heroku.com/articles/using-terraform-with-heroku
+
 provider "heroku" {
   version = "~> 2.0"
 }
 
-variable "app_name" {
-  description = "Name of the Heroku app"
-}
-
 resource "heroku_app" "example" {
-  name   = "${var.app_name}"
+  name   = var.app_name
   region = "us"
 }
 
 # Launch the app's web process by scaling-up
 resource "heroku_formation" "example" {
-  app        = "${heroku_app.example.name}"
+  app        = heroku_app.example.name
   type       = "web"
   quantity   = 1
   size       = "free"
